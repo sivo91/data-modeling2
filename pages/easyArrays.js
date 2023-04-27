@@ -8,15 +8,14 @@ const easyArrays = () => {
   
   const [numbers, setNumbers] = useState([])
   const [select, setSelect] = useState('')
-
+  const [output, setOutput] = useState(null)
   
  
-// GET RANDOM NUMBERS
+  // GET RANDOM NUMBERS
   const getNumbers = (e) => {
     e.preventDefault()
     
-    
-    document.getElementById('output').innerHTML = ''
+    setOutput('')
     let arr = []
 
     for(let i = 0; i < 8; i++) {
@@ -31,17 +30,21 @@ const easyArrays = () => {
     setNumbers(arr)
   }
 
+
   // CLEAR FIELD
   const clearData = () => {
        setNumbers([])
-       document.getElementById('output').innerHTML = ''
+       setOutput('')
        setSelect('')
   }
+
+  
 
   // GET OPTION
   const handleChange = (e) => {
     let option = e.target.value
-    console.log(typeof option, option) // STRING !
+    
+    //console.log(typeof option, option) // STRING !
     setSelect(option)
     if(numbers.length < 2) {
       alert('Plese select numbers')
@@ -66,6 +69,7 @@ const easyArrays = () => {
   }
 
   /*****  FUNCTIONS TO GET SOLUTION *******/
+
   // EVEN/ODD
   const evenOdd = (x) => {
     let even = []
@@ -80,7 +84,8 @@ const easyArrays = () => {
     }
   }
  
-   document.getElementById('output').innerHTML = `Your even numbers are: ${even} ` + '<br><br>' +  `and odd numbers are: ${odd} ` 
+
+   setOutput(`Your even numbers are: ${even} ` + '<br><br>' +  `and odd numbers are: ${odd} `)
 }
 
 function findSmall(arr) {
@@ -99,7 +104,7 @@ function findSmall(arr) {
     } 
    }
 
-  document.getElementById('output').innerHTML = `Your smallest num is: ${small}` + '<br><br>' + `and highest num is: ${highest}.`
+  setOutput(`Your smallest num is: ${small}` + '<br><br>' + `and highest num is: ${highest}.`)
 
 }
 
@@ -112,7 +117,7 @@ function removeLastNum(x) {
   }
   let a = array.pop()
   
-  document.getElementById('output').innerHTML = `Your numbers are: ${array}` + '<br><br>' + `removed num is ${a}`
+  setOutput(`Your smallest num is: ${small}` + '<br><br>' + `and highest num is: ${highest}.`)
 }
 
 function removeFirst(x) {
@@ -122,7 +127,8 @@ function removeFirst(x) {
   }
 
   let f = array.shift()
-  document.getElementById('output').innerHTML = `Your numbers are: ${array}` + '<br><br>' + ` removed num is: ${f}`
+
+  setOutput(`Your numbers are: ${array}` + '<br><br>' + ` removed num is: ${f}`)
 }
 
 /* function  sum(x) {
@@ -260,7 +266,9 @@ function findPair(x) {
       <div className="text-center">{numbers.join(' , ')}</div>
 
 
-       <select className="form-select my-4" 
+      
+      <select className="form-select my-4" 
+           id='select-option'
            aria-label="Default select example"
            onChange={handleChange}>
         <option value={''}>select menu</option>
@@ -272,10 +280,11 @@ function findPair(x) {
         <option value="avg">Average of nums</option>
         <option value="over50">remove num bigger than 50</option>
         <option value="pair">find 2 numbers to sum 15</option>
-    
       </select> 
+     
+     
 
-      <div className="my-3 text-center" id='output'></div>
+      <div className="my-3 text-center" id='output'>{output}</div>
     </div>
   )
 }
