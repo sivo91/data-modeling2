@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 
 const easyArrays = () => {
 
-  
+  const router = useRouter()
   const [numbers, setNumbers] = useState([])
   const [select, setSelect] = useState('')
   const [output, setOutput] = useState(null)
@@ -35,7 +36,6 @@ const easyArrays = () => {
   const clearData = () => {
        setNumbers([])
        setOutput('')
-       setSelect('')
   }
 
   
@@ -45,7 +45,7 @@ const easyArrays = () => {
     let option = e.target.value
     
     //console.log(typeof option, option) // STRING !
-    setSelect(option)
+  
     if(numbers.length < 2) {
       alert('Plese select numbers')
     }
@@ -65,7 +65,9 @@ const easyArrays = () => {
       over50(numbers)
     } else if (option === 'pair') {
       findPair(numbers)
-    }
+    } else if (option === 'findNumber7') {
+      findNumber7(numbers)
+    } 
   }
 
   /*****  FUNCTIONS TO GET SOLUTION *******/
@@ -85,7 +87,7 @@ const easyArrays = () => {
   }
  
 
-   setOutput(`Your even numbers are: ${even} ` + '<br><br>' +  `and odd numbers are: ${odd} `)
+   setOutput(`Your even numbers are: ${even} and odd numbers are: ${odd} `)
 }
 
 function findSmall(arr) {
@@ -104,7 +106,7 @@ function findSmall(arr) {
     } 
    }
 
-  setOutput(`Your smallest num is: ${small}` + '<br><br>' + `and highest num is: ${highest}.`)
+  setOutput(`Your smallest num is: ${small} and highest num is: ${highest}.`)
 
 }
 
@@ -117,7 +119,7 @@ function removeLastNum(x) {
   }
   let a = array.pop()
   
-  setOutput(`Your smallest num is: ${small}` + '<br><br>' + `and highest num is: ${highest}.`)
+  setOutput(`Your numbers are: ${array} removed num is ${a}`)
 }
 
 function removeFirst(x) {
@@ -128,105 +130,82 @@ function removeFirst(x) {
 
   let f = array.shift()
 
-  setOutput(`Your numbers are: ${array}` + '<br><br>' + ` removed num is: ${f}`)
+  setOutput(`Your numbers are: ${array}, removed num is: ${f}`)
 }
 
-/* function  sum(x) {
+ function  sum(x) {
   let array = []
-  let singles
-  let count = 0
-  
-  // convert for obj to num
-  for(let i = 0; i < x.length; i+=3 ) {
+  //let singles = 0
+  let result = 0
+
+  // convert string to num
+  for(let i = 0; i < x.length; i++ ) {
     array.push(Number(x[i]))
   }
 
   // make copy
-  singles = array.slice()
-
-  let result = 0
+ /*  singles = array.slice()
 
   for(let i = 0; i < singles.length; i++) {
     result += singles[i]
-  }
-  console.log(result) 
-  document.getElementById('output').innerHTML = `Sum is: ${result}`
+  } */
 
+  for(let i = 0; i < array.length; i++) {
+    result += array[i]
+  }
+
+  setOutput(`Sum is: ${result}`)
 }
 
 function average(x) {
-  let arr = x.split('')
   let array = []
-  counter = 0
+  let counter = 0
+  let result = 0
 
-  for(let i = 0; i < arr.length; i+=3) {
-    if(arr[i] === ',') {
-      continue
-    }
-
-    array.push(Number(arr[i] + arr[i + 1]))
+  for(let i = 0; i < x.length; i++) {
+    array.push(Number(x[i]))
   }
    
   let copy = array.slice()
-  console.log(copy)
   
-
   for(let i = 0; i < copy.length; i++ ) {
     counter += copy[i]
   }
 
-  let result = counter / 2
-  console.log(counter, result)
+  result = counter / 2
+  //console.log(counter, result)
 
-  output.innerHTML = `Sum is: ${counter}` + '<br><br>' + ` and average is: ${result}` 
-
+  setOutput(`Sum is: ${counter} and average is: ${result.toFixed(2)}`)
 }
 
 function over50 (x) {
-  let arr = x.split('')
   let array = []
 
-  for(let i = 0; i < arr.length; i+=3) {
-    if(arr[i] === ',') {
-      continue
-    }
-   
-    if(Number(arr[i] + arr[i + 1]) <= 50) {
-      array.push(Number(arr[i] + arr[i + 1]))
+  for(let i = 0; i < x.length; i++) {   
+    if(Number(x[i] <= 50)) {
+      array.push(Number(x[i]))
     }
   }
  
-  console.log(array)
-  output.innerHTML = `Your numbers are: ${array}`  
+  //console.log(array)
+  setOutput(`Your numbers are: ${array}` ) 
 
 }
 
 function findPair(x) {
- let array = x.split('')
- //console.log(array)
-
  let arr = []
-
-  pair = []
+ let pair = []
   let n = 15
 
-  for(let i = 0; i < array.length; i++) {
-     if(array[i] === ',') {
-      continue
-     }
-     arr.push(array[i])
+  for(let i = 0; i < x.length; i++) {
+     arr.push(x[i])
   }
 
   let last = arr.length - 1
   let ar = arr.slice(0, last)
 
-   //console.log(ar, typeof ar)
-
-
-    for(let i = 0; i < ar.length; i++) {
-      //let x = Number(ar[i])
-      //console.log(x)
-       
+     for(let i = 0; i < ar.length; i++) {
+ 
        for(let j = i + 1; j < ar.length; j++) {
            let a = Number(ar[i])
            let b = Number(ar[j])
@@ -238,19 +217,51 @@ function findPair(x) {
     console.log(pair)
 
     if(pair[0] === undefined && pair[1] === undefined) {
-      output.innerHTML = `pair of numbers were not found, please try it again`
+      setOutput(`pair of numbers were not found, please try it again`)
     } else {
-      output.innerHTML = `first num is ${pair[0]}  + second num is ${pair[1]} = ${n}`
+      setOutput(`first num is ${pair[0]}  + second num is ${pair[1]} = ${n}`)
     }
 
 }
- */
 
+function findNumber7(x) {
+  console.log(x)
+  const singleNumbers = x.toString().split('')
+  console.log(singleNumbers)
+  const arr = []
+  const number7 = []
+  let count7 = 0
+
+  for(let i = 0; i < singleNumbers.length; i++) {
+    if(singleNumbers[i] === ','){
+      continue
+    }
+    arr.push(Number(singleNumbers[i]))
+  }
+  console.log(arr)
+
+  for(let i = 0; i < arr.length; i++) {
+       if(arr[i] === 7) {
+        number7.push(arr[i])
+        count7++
+       }
+  }
+
+   number7.length < 1 ? 
+      setOutput('Your numbers dont contains number 7') :
+      setOutput(`We find ${count7} x number 7 | [ ${number7} ]`)
+}
+
+
+
+const backHome = (e) => {
+  e.preventDefault()
+  router.push('/')
+}
   return (
 
     <div className="container">
      
-
       <div className='mt-5 py-5'>
         <button className="btn btn-outline-primary addNum ms-3  mx-auto" type="button"
                 onClick={getNumbers}>
@@ -280,11 +291,17 @@ function findPair(x) {
         <option value="avg">Average of nums</option>
         <option value="over50">remove num bigger than 50</option>
         <option value="pair">find 2 numbers to sum 15</option>
+        <option value="findNumber7">find number 7</option>
       </select> 
      
      
 
       <div className="my-3 text-center" id='output'>{output}</div>
+
+      <button className='btn btn-primary mx-3'
+              onClick={backHome}> 
+        Back
+      </button>
     </div>
   )
 }

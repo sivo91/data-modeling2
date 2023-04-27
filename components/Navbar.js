@@ -7,10 +7,10 @@ const Navbar = () => {
      <nav>
        <div className="menu">
         <Link href={'/easyArrays'} className='link'>
-             <p>Chalanges I</p>
+             <p>challenges I</p>
        </Link>
        <Link href={'#'} className='link'>
-             <p>Chalanges II</p>
+             <p>challenges II</p>
        </Link>
       
        </div>
